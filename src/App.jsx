@@ -63,15 +63,15 @@ function App() {
 
   const getAdvice = (weather) => {
     if (weather.includes('Rain')) {
-      return 'N\'oubliez pas votre parapluie !';
+      return 'Prennez votre parapluie';
     } else if (weather.includes('Snow')) {
-      return 'Mettez votre manteau et vos gants !';
+      return 'Prennez un manteau chaud';
     } else if (weather.includes('Clear')) {
-      return 'Portez des vêtements légers et profitez du soleil !';
+      return 'Portez des vêtements légers';
     } else if (weather.includes('Clouds')) {
-      return 'Portez une veste légère, il pourrait faire frais !';
+      return 'Portez un pull léger';
     } else {
-      return 'Habillez-vous confortablement et profitez de votre journée !';
+      return 'Habillez-vous confortablement';
     }
   }
 
