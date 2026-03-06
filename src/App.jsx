@@ -24,7 +24,6 @@ function App() {
     setLoading(true);
 
     try {
-      console.error('test');
       const data = await fetchWeatherData(lat, long);
       setWeatherData(data);
       setLoading(false);
@@ -48,7 +47,6 @@ function App() {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      console.log("test");
       fetchWeather(latitude, longitude, true);
     }, (error) => {
       console.error('Error getting geolocation:', error);
@@ -60,7 +58,7 @@ function App() {
       }
       setError({ hasError: true, message: 'Impossible de récupérer votre position. Veuillez autoriser l\'accès à la géolocalisation.' });
       setLoading(false);
-    }, {timeout: 1000});
+    }, {timeout: 7000});
   }, []);
 
   const getAdvice = (weather) => {
