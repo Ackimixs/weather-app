@@ -16,7 +16,7 @@ async function fetchWeatherData(lat, long) {
 
 async function convertCityToCoordinates(city) {
     const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
 
     try {
         const response = await fetch(url);
