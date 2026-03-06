@@ -63,8 +63,16 @@ function App() {
             className="search-input"
             onKeyDown={async (e) => {
               if (e.key === 'Enter') {
-                const { lat, lon } = await convertCityToCoordinates(e.target.value);
-                await fetchWeather(lat, lon);
+                try {
+                  const { lat, lon } = await convertCityToCoordinates(e.target.value);
+                  await fetchWeather(lat, lon);
+                } catch (error) {
+                  console.error('Error fetching weather data:', error);
+                  setError({
+                    hasError: true,
+                    message: 'Impossible de récupérer les données météo pour cette ville. Veuillez réessayer.'
+                  });
+                }
               }
             }}
         />
