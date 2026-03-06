@@ -1,3 +1,11 @@
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+}
+
 .weather-card {
     background: white;
     padding: 2rem;
@@ -34,7 +42,6 @@ input {
 }
 
 .location {
-    font-weight: bold;
     margin-bottom: 1rem;
     color: #333;
 }
@@ -65,6 +72,17 @@ input {
 .advice {
     font-size: 0.9rem;
     color: #555;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.city {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
 body.dark {
