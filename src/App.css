@@ -66,3 +66,26 @@ input {
     font-size: 0.9rem;
     color: #555;
 }
+
+body.dark {
+    background-color: #222;
+    color: #eee;
+}
+
+body.dark .weather-card {
+    background: #333;
+    color: #eee;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+body.dark .search-bar {
+    background-color: #444;
+}
+
+body.dark input {
+    color: #eee;
+}
+
+body.dark .advice {
+    color: #ccc;
+}

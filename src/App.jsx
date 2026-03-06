@@ -8,6 +8,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [err, setError] = useState({ hasError: false, message: '' });
 
+  useEffect(() => {
+    const mq = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+    );
+
+    document.body.classList.toggle("dark", mq.matches);
+  }, []);
+
   const fetchWeather = async (lat, long) => {
     setLoading(true);
 
@@ -81,7 +89,7 @@ function App() {
       {
         loading ?
             <div className="loading">
-              <span>Loading ...</span>
+              <span>Chargement ...</span>
             </div>
             : err.hasError ?
                 <div className="loading">
