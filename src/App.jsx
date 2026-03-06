@@ -1,0 +1,109 @@
+import './App.css'
+import {useEffect, useState} from "react";
+import {convertCityToCoordinates, fetchWeatherData} from "./weatherApi";
+
+function App() {
+
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setError] = useState({ hasError: false, message: '' });
+
+  const fetchWeather = async (lat, long) => {
+    setLoading(true);
+
+    try {
+      const data = await fetchWeatherData(lat, long);
+      setWeatherData(data);
+      setLoading(false);
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      setError({ hasError: true, message: 'Impossible de récupérer les données météo. Veuillez réessayer plus tard.' });
+    }
+  }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      fetchWeather(latitude, longitude);
+    }, (error) => {
+      console.error('Error getting geolocation:', error);
+      setError({ hasError: true, message: 'Impossible de récupérer votre position. Veuillez autoriser l\'accès à la géolocalisation.' });
+      setLoading(false);
+    });
+  }, []);
+
+  const getAdvice = (weather) => {
+    if (weather.includes('Rain')) {
+      return 'Prenez votre parapluie';
+    } else if (weather.includes('Snow')) {
+      return 'Mettez vos bottes de neige';
+    } else if (weather.includes('Clear')) {
+      return 'Profitez du soleil !';
+    } else if (weather.includes('Clouds')) {
+      return 'Il pourrait faire un peu gris aujourd\'hui';
+    } else {
+      return 'Bonne journée !';
+    }
+  }
+
+  return (
+    <div className="weather-card">
+      <div className="search-bar">
+        <div className="search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+               stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+          </svg>
+        </div>
+        <input
+            type="text"
+            placeholder="Rechercher"
+            className="search-input"
+            onKeyDown={async (e) => {
+              if (e.key === 'Enter') {
+                const { lat, lon } = await convertCityToCoordinates(e.target.value);
+                await fetchWeather(lat, lon);
+              }
+            }}
+        />
+      </div>
+
+      {
+        loading ?
+            <div className="loading">
+              <span>Loading ...</span>
+            </div>
+            : err.hasError ?
+                <div className="loading">
+                  <span>{err.message}</span>
+                </div>
+            :
+                <>
+              <div className="location">
+                <span className="city">{weatherData.name.toUpperCase()}</span> · <span
+                  className="country">{weatherData.sys.country.toUpperCase()}</span>
+              </div>
+              <hr />
+
+              <div className="temperature-section">
+                <div>
+                  <div className="temperature">{weatherData.main.temp}°C</div>
+                  <div className="weather-description">{weatherData.weather[0].description}</div>
+                </div>
+                <img
+                    src={`https://openweathermap.org/payload/api/media/file/${weatherData.weather[0].icon}.png`}
+                    alt="Weather Icon"
+                    className="weather-icon"
+                />
+              </div>
+              <hr />
+              <div className="advice">{getAdvice(weatherData.weather[0].main)}</div>
+            </>
+      }
+    </div>
+  )
+}
+
+export default App
