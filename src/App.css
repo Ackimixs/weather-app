@@ -89,3 +89,7 @@ body.dark input {
 body.dark .advice {
     color: #ccc;
 }
+
+body.dark .location {
+    color: #eee;
+}
